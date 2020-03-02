@@ -1,0 +1,164 @@
+service: ${env:SERVICE_NAME}
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: us-east-1
+  stage: ${env:VERSION}
+  tracing: true
+  deploymentBucket: ${env:DEPLOYMENT_BUCKET}
+  apiGateway:
+    restApiId: 
+      'Fn::ImportValue': ${env:API_NAME}-${self:provider.stage}-restApiId
+    restApiRootResourceId:
+      'Fn::ImportValue': ${env:API_NAME}-${self:provider.stage}-rootResourceId
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - cloudwatch:*
+        - logs:*
+        - xray:*
+        - ses:*
+      Resource: "*"
+  environment:
+    NODE_ENV         : ${env:NODE_ENV}
+    LOG_INFO_ENABLE  : ${env:LOG_INFO_ENABLE}
+    LOG_ERROR_ENABLE : ${env:LOG_ERROR_ENABLE}
+    LOG_WARN_ENABLE  : ${env:LOG_WARN_ENABLE}
+    DB_PM_HOST    : ${env:DB_PM_HOST}
+    DB_PM_PORT    : ${env:DB_PM_PORT}
+    DB_PM_DATABASE: ${env:DB_PM_DATABASE}
+    DB_PM_USER    : ${env:DB_PM_USER}
+    DB_PM_PASSWORD: ${env:DB_PM_PASSWORD}
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-tracing
+
+custom:
+  serverless-offline:
+    apiKey: local
+    port: 3002
+
+functions:
+  createProduct:
+    name: ${self:service}_createProduct_${self:provider.stage}
+    handler: src/controllers/products/_handler.createProductRoute
+    description: Function to create a product
+    timeout: 30
+    memorySize: 256
+    events:
+      - http:
+          path: products
+          method: POST
+          cors: true
+          private: true
+  getProducts:
+    name: ${self:service}_getProducts_${self:provider.stage}
+    handler: src/controllers/products/_handler.getProductListRoute
+    description: Function to get a product list
+    timeout: 30
+    memorySize: 256
+    events:
+      - http:
+          path: products
+          method: GET
+          cors: true
+          private: true
+  getProductsById:
+    name: ${self:service}_getProductsById_${self:provider.stage}
+    handler: src/controllers/products/_handler.getProductByIdRoute
+    description: Function to get a product by id
+    timeout: 30
+    memorySize: 256
+    events:
+      - http:
+          path: products/{id}
+          method: GET
+          cors: true
+          private: true
+  editProduct:
+    name: ${self:service}_editProduct_${self:provider.stage}
+    handler: src/controllers/products/_handler.editProductRoute
+    description: Function to edit a product by id
+    timeout: 30
+    memorySize: 256
+    events:
+      - http:
+          path: products/{id}
+          method: PUT
+          cors: true
+          private: true
+  deleteProduct:
+    name: ${self:service}_deleteProduct_${self:provider.stage}
+    handler: src/controllers/products/_handler.deleteProductRoute
+    description: Function to edit a product by id
+    timeout: 30
+    memorySize: 256
+    events:
+      - http:
+          path: products/{id}
+          method: DELETE
+          cors: true
+          private: true
+  createCategory:
+    name: ${self:service}_createCategory_${self:provider.stage}
+    handler: src/controllers/categories/_handler.createCategoryRoute
+    description: Function to create a category
+    timeout: 30
+    memorySize: 256
+    events:
+      - http:
+          path: categories
+          method: POST
+          cors: true
+          private: true
+  editCategory:
+    name: ${self:service}_editCategory_${self:provider.stage}
+    handler: src/controllers/categories/_handler.editCategoryRoute
+    description: Function to edit a category
+    timeout: 30
+    memorySize: 256
+    events:
+      - http:
+          path: categories/{id}
+          method: PUT
+          cors: true
+          private: true
+  getCategories:
+    name: ${self:service}_getCategories_${self:provider.stage}
+    handler: src/controllers/categories/_handler.getCategoriesRoute
+    description: Function to get a category list
+    timeout: 30
+    memorySize: 256
+    events:
+      - http:
+          path: categories
+          method: GET
+          cors: true
+          private: true
+  getCategoriesById:
+    name: ${self:service}_getCategoriesByIds_${self:provider.stage}
+    handler: src/controllers/categories/_handler.getCategoryByIdRoute
+    description: Function to get a category by id
+    timeout: 30
+    memorySize: 256
+    events:
+      - http:
+          path: categories/ids/
+          method: POST
+          cors: true
+          private: true
+  deleteCategories:
+    name: ${self:service}_deleteCategories_${self:provider.stage}
+    handler: src/controllers/categories/_handler.deleteCategoryRoute
+    description: Function to delete a category
+    timeout: 30
+    memorySize: 256
+    events:
+      - http:
+          path: categories/{id}
+          method: DELETE
+          cors: true
+          private: true
+

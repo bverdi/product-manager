@@ -1,0 +1,34 @@
+{
+  "name": "pm-breno",
+  "version": "1.0.0",
+  "description": "Product Management - API",
+  "scripts": {
+    "lint": "eslint src/**",
+    "test": "mocha -t 10000",
+    "local": "dotenv serverless offline start"
+  },
+  "dependencies": {
+    "csv-parser": "^2.3.2",
+    "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "log4js": "^6.1.2",
+    "readline": "^1.3.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "split": "^1.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^6.7.2",
+    "mocha": "^6.2.2",
+    "mocha-junit-reporter": "^1.23.1",
+    "serverless": "^1.58.0",
+    "serverless-api-gateway-xray": "^1.0.1",
+    "serverless-offline": "^5.12.1",
+    "serverless-plugin-tracing": "^2.0.0",
+    "supertest": "^4.0.2"
+  },
+  "author": "Breno Verdi",
+  "license": "ISC"
+}
