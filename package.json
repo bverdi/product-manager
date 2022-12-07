@@ -23,7 +23,7 @@
     "eslint": "^6.7.2",
     "mocha": "^6.2.2",
     "mocha-junit-reporter": "^1.23.1",
-    "serverless": "^1.58.0",
+    "serverless": "^3.25.1",
     "serverless-api-gateway-xray": "^1.0.1",
     "serverless-offline": "^5.12.1",
     "serverless-plugin-tracing": "^2.0.0",
