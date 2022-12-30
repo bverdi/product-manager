@@ -21,7 +21,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^6.7.2",
-    "mocha": "^6.2.2",
+    "mocha": "^10.2.0",
     "mocha-junit-reporter": "^1.23.1",
     "serverless": "^1.58.0",
     "serverless-api-gateway-xray": "^1.0.1",
